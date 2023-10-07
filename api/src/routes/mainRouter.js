@@ -4,9 +4,9 @@ const gamesRouter = require('./gamesRouter');
 const genresRouter = require('./genresRouter');
 
 
-const router = Router();
+const mainRouter = Router();
 
-router.use('/videogames', gamesRouter);
-router.use('/genres', genresRouter);
+mainRouter.use('/videogames', gamesRouter);
+mainRouter.use('/genres', genresRouter);
 
-module.exports = router;
+module.exports = mainRouter;
