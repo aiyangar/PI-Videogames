@@ -1,18 +1,22 @@
-const infoCleaner = (array) => {
-    return array.map(item => {
+const cleanArray = (arr) => {
+    return arr.map(elem => {
+        const platforms = [elem.platforms, elem.parent_platforms]
+            .flatMap(platform => platform.map(p => p.platform.name))
+            .filter((name, index, arr) => arr.indexOf(name) === index);
+        const genres = elem.genres.map(g => g.id);
         return {
-            id: item.id,
-            name: item.name,
-            description: item.description,
-            platforms: item.platforms,
-            image: item.background_image,
-            released: item.released,
-            rating: item.rating,
-            genre: item.genres,
-            createdInDb: false
-        }
-    })
-}
+            id: elem.id,
+            name: elem.name,
+            description: elem.description,
+            platform: platforms,
+            image: elem.background_image,
+            released: elem.released,
+            rating: elem.rating,
+            genre: genres,
+            created: false
+        };
+    });
+};
 
 const cleanData = (element) => ({
     "id": element.id,
@@ -26,4 +30,4 @@ const cleanData = (element) => ({
     "createdInDb": false
 })
 
-module.exports = { infoCleaner, cleanData }
+module.exports = { cleanArray, cleanData }

@@ -1,23 +1,48 @@
-const getGamesHandler = (req, res) => {
+const { 
+    createGameDB,
+    getGameByID,
+    getAllGames,
+    getGameByName
+} = require('../controllers/gamesControllers')
+
+const getGamesHandler = async(req, res) => {
     const { name } = req.query;
 
-    if (name) {
-        res.status(200).send(`El videojuego ${name}`)
-    } else {
-        res.status(200).send('Todos los videojuegos')
+    try {
+        if (name) {
+            const gameByName = await getGameByName(name)
+            res.status(200).json(gameByName)
+        } else {
+            const response = await getAllGames()
+            res.status(200).json(response)   
+        }
+    } catch (error) {
+        res.status(400).json({error: error.message})
     }
 }
 
-const getGamesDetailHandler = (req, res) => {
+const getGamesDetailHandler = async(req, res) => {
     const { id } = req.params;
 
-    res.status(200).send(`El game con el id: ${id}`)
+    const source = isNaN(id) ? 'db' : 'api';
+
+    try {
+        const response = await getGameByID(id, source)
+        res.status(200).json(response)
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
 }
 
-const postGamesHandler = (req, res) => {
-    const {id, name, description, platforms, image, releaseDate, rating, genre, createdInDb} = req.body;
+const postGamesHandler = async(req, res) => {
+    const {id, name, description, platforms, image, releaseDate, rating, genre, created} = req.body;
 
-    res.status(200).send(`El videojuego ${name} con la imagen ${image}, que salió a la venta el ${releaseDate}, tiene un rating de ${rating} y tiene un genero ${genre}, su descripción es la siguiente: ${description} y tiene ${platforms} plataformas`)
+    try {
+        const response = await createGameDB(id, name, description, platforms, image, releaseDate, rating, genre, created)
+        res.status(200).json(response)
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
 }
 
 module.exports = { 
