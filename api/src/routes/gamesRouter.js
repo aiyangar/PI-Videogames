@@ -11,9 +11,7 @@ const {
 
 
 gamesRouter.get('/', getGamesHandler)
-
 gamesRouter.get('/:id', getGamesDetailHandler)
-
 gamesRouter.post('/', postGamesHandler)
 
 module.exports = gamesRouter;
