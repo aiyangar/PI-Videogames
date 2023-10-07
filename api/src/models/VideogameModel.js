@@ -30,7 +30,7 @@ module.exports = (sequelize) => {
       defaultValue: "https://via.placeholder.com/150"
     },
     releaseDate: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: true,
     },
     rating: {
