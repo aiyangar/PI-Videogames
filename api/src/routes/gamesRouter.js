@@ -2,18 +2,18 @@ const { Router } = require('express');
 
 const gamesRouter = Router();
 
-gamesRouter.get('/', (req, res) => {
-    res.status(200).send('Todos los videojuegos')
-})
+const { 
+    getGamesHandler, 
+    getGamesDetailHandler,
+    postGamesHandler
+} = require('../handlers/gamesHandlers');
 
-gamesRouter.get('/:id', (req, res) => {
-    const { id } = req.params;
-    res.status(200).send(`El id es: ${id}`)
-})
 
-gamesRouter.post('/', (req, res) => {
-    res.status(200).send('Se creo un videojuego')
 
-})
+gamesRouter.get('/', getGamesHandler)
+
+gamesRouter.get('/:id', getGamesDetailHandler)
+
+gamesRouter.post('/', postGamesHandler)
 
 module.exports = gamesRouter;
