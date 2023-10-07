@@ -27,7 +27,7 @@ const cleanData = (element) => ({
     "released": element.released,
     "rating": element.rating,
     "genre": element.genres,
-    "createdInDb": false
+    "created": false
 })
 
 module.exports = { cleanArray, cleanData }

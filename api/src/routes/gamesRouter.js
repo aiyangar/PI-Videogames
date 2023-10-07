@@ -8,8 +8,6 @@ const {
     postGamesHandler
 } = require('../handlers/gamesHandlers');
 
-
-
 gamesRouter.get('/', getGamesHandler)
 gamesRouter.get('/:id', getGamesDetailHandler)
 gamesRouter.post('/', postGamesHandler)
