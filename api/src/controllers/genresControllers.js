@@ -6,7 +6,7 @@ const {Genre} = require('../db.js');
 
 const getAllGenres = async (req, res) => {
     const genresDb = await Genre.findAll();
-
+    console.log(genresDb);
     if (genresDb.length) {
         return genresDb;
     } else {

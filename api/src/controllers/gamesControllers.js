@@ -7,6 +7,7 @@ const {URL, KEY} = process.env
 
 const getAllGames = async() => {
     const gamesDB = await Videogame.findAll();
+    
     const infoApi = (await axios.get(`${URL}/games?key=${KEY}`)).data.results;
     const gamesApi = cleanArray(infoApi);
 
