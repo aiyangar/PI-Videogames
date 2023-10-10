@@ -7,6 +7,7 @@ import Details from './Pages/Details/Details'
 import Landing from './Pages/Landing/landing'
 
 import NavBar from './Components/NavBar/NavBar'
+import Footer from './Components/Footer/Footer'
 import './App.css'
 
 function App() {
@@ -21,9 +22,10 @@ function App() {
           <Route path={'/create'} Component={Create} />
           <Route path={'/videogames'} Component={Videogames} />
           <Route path={'/details'} Component={Details} />
+
         </Routes>
+      <Footer />  
       </BrowserRouter>
-      <h1>Footer</h1>
     </>
   )
 }

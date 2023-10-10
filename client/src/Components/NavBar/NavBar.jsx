@@ -14,8 +14,8 @@ const NavBar = () => {
         </ul>
       </nav>
       <div className="searchBarContainer">
-        <input type="text" placeholder='Search' />
-        <button>Search</button>
+        <input type="text" placeholder='Búsqueda...' />
+        <button>Buscar</button>
       </div>
     </div>
   )
