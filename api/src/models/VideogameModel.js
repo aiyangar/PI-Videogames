@@ -20,9 +20,9 @@ module.exports = (sequelize) => {
       defaultValue: "No description available"
     },
     platforms: {
-      type: DataTypes.STRING,
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
-      defaultValue: "No platforms available"
+      defaultValue: ["No platforms available"]
     },
     image: {
       type: DataTypes.STRING,
@@ -37,8 +37,8 @@ module.exports = (sequelize) => {
       type: DataTypes.FLOAT,
       allowNull: true,
     },
-    genre:{
-      type: DataTypes.INTEGER,
+    genres:{
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
     },
     created: {

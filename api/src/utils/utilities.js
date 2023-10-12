@@ -3,7 +3,7 @@ const cleanArray = (arr) => {
         const platforms = [elem.platforms, elem.parent_platforms]
             .flatMap(platform => platform.map(p => p.platform.name))
             .filter((name, index, arr) => arr.indexOf(name) === index);
-        const genres = elem.genres.map(g => g.name);
+        // const genres = elem.genres.map(g => g.name);
         return {
             id: elem.id,
             name: elem.name,
