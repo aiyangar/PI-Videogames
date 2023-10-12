@@ -19,7 +19,7 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: "No description available"
     },
-    platforms: {
+    platform: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
       defaultValue: ["No platforms available"]
@@ -37,7 +37,7 @@ module.exports = (sequelize) => {
       type: DataTypes.FLOAT,
       allowNull: true,
     },
-    genres:{
+    genre:{
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
     },
