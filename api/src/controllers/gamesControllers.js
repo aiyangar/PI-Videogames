@@ -10,22 +10,6 @@ const getAllGames = async() => {
   const infoApi = (await axios.get(`${URL}/games?key=${KEY}`)).data.results;
   const gamesApi = cleanArray(infoApi);
 
-  // Obtener todas las plataformas únicas
-  const uniquePlatforms = Array.from(
-    new Set(
-      gamesApi.flatMap((game) => game.platforms)
-    )
-  );
-
-  // Guardar las plataformas en la base de datos sin repetirlas
-  for (const platformName of uniquePlatforms) {
-    await Platform.findOrCreate({
-      where: {
-        name: platformName,
-      },
-    });
-  }
-
   return [...gamesDB, ...gamesApi]
 }
 
