@@ -2,6 +2,7 @@
 
 .navbarContainer {
   display: flex;
+  background: #743ad5;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;

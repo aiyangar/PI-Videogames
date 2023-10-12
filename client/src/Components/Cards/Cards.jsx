@@ -1,8 +1,15 @@
 import React from 'react'
+import Card from '../Card/Card.jsx'
 
-const Cards = () => {
+import './Cards.styles.css'
+
+const Cards = ({info}) => {
   return (
-    <div>Cards</div>
+    <div className='cardsContainer'>
+      {
+        info.map (item => <Card name = {item.name} description = {item.description} platforms = {item.platforms} image = {item.image} releaseDate = {item.releaseDate} rating = {item.rating} genres = {item.genres} key = {item.id}/>)
+      }
+    </div>
   )
 }
 
