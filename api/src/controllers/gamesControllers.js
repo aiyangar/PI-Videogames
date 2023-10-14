@@ -1,4 +1,4 @@
-const { Videogame, Platform } = require('../db');
+const { Videogame } = require('../db');
 const { Sequelize } = require('sequelize');
 const axios = require('axios');
 const {URL, KEY} = process.env;

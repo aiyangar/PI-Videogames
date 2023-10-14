@@ -2,6 +2,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  width: 100%;
 }
 
 .leftSide {
@@ -11,6 +12,35 @@
   justify-content: space-around;
   max-width: 40%;
   height: 400px;
+}
+
+.selectContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.genrePlatformContainer {
+  display: flex;
+  width: 100%;
+  align-content: space-evenly;
+  justify-content: space-evenly;
+  margin-top: 4rem;
+}
+
+.platformsContainer {
+  justify-content: right;
+  text-align: right;
+  padding: auto;
+}
+
+.item {
+  padding: .2em;
+}
+
+.genreContainer {
+  justify-content: left;
+  text-align: left;
 }
 
 .rightSide {

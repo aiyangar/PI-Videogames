@@ -41,7 +41,6 @@ const createGameHandler = async(req, res, ) => {
   const { id, name, description, platform, image, releaseDate, rating, genre, created } = req.body;
   try {
     const response = await createGameDB(id, name, description, platform, image, releaseDate, rating, genre, created);
-    console.log(response);
     res.status(200).json(response);
   
   } catch (error) {
