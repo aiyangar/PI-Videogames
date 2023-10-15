@@ -77,3 +77,11 @@
 .formButton:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+.formButton[disabled] {
+  cursor: not-allowed;
+}
+
+.validateData{
+  color: red;
+}

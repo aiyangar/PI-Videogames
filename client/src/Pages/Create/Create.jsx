@@ -20,7 +20,7 @@ const create = () => {
     description: 'La descripción es requerida',
     platforms: 'Selecciona al menos una plataforma',
     image: 'Escribe la URL de la imagen',
-    releaseDate: 'Formato aaaa-mm-dd',
+    releaseDate: 'Selecciona una fecha válida',
     rating: 'Escribe un número del 1 al 5',
     genre: 'Selecciona al menos un género'
   })
@@ -34,6 +34,10 @@ const create = () => {
     if (name === 'name'){
       if (state.name === ''){
         setErrors({...errors, name: 'El nombre del juego es requerido'})
+      } else if (state.name.length < 3){
+        setErrors({...errors, name: 'El nombre del juego debe tener al menos 3 caracteres'})
+      } else if (state.name.length > 20){
+        setErrors({...errors, name: 'El nombre del juego debe tener menos de 20 caracteres'})
       } else {
         setErrors({...errors, name: ''})
       }
@@ -41,6 +45,8 @@ const create = () => {
     if (name === 'description'){
       if (state.description === ''){
         setErrors({...errors, description: 'La descripción es requerida'})
+      } else if (state.description.length < 20){
+        setErrors({...errors, description: 'La descripción debe tener al menos 20 caracteres'})
       } else {
         setErrors({...errors, description: ''})
       }
@@ -62,13 +68,13 @@ const create = () => {
     }
     if (name === 'releaseDate'){
       if (state.releaseDate === ''){
-        setErrors({...errors, releaseDate: 'Formato aaaa-mm-dd'})
+        setErrors({...errors, releaseDate: 'Selecciona una fecha'})
       } else {
         setErrors({...errors, releaseDate: ''})
       }
     }
     if (name === 'rating'){
-      if ((state.rating > 0) && (state.rating < 6) && (state.rating !== '')){
+      if ((parseInt(state.rating) > 0) && (parseInt(state.rating) < 6) && (state.rating !== '')){
         setErrors({...errors, rating: ''})
       } else {
         setErrors({...errors, rating: 'Escribe un número del 1 al 5'})
@@ -114,6 +120,20 @@ const create = () => {
     }, event.target.name)
   }
 
+  const buttonDisabled = () => {
+    let disableButton = true;
+    for (let error in errors){
+      if (errors[error] !== '') {
+        disableButton = true
+        break
+      } else{
+        disableButton = false
+      }
+    }
+    return disableButton
+  }
+  
+
   const removeElement = (event) => {
     setState({
       ...state,
@@ -129,10 +149,15 @@ const create = () => {
       <div className='formContainer'>
         <form className='leftSide'>
           <input onChange={handleChange} type="text" name='name' placeholder='nombre'/>
+          <span className='validateData'>{errors.name}</span>
           <input onChange={handleChange} type="text" name='description' placeholder='descripción'/>
+          <span className='validateData'>{errors.description}</span>
           <input onChange={handleChange} type="text" name='image' placeholder='url de la imagen'/>
-          <input onChange={handleChange} type="date" name='releaseDate' placeholder='fecha de lanzamiento'/>
+          <span className='validateData'>{errors.image}</span>
+          <input onChange={handleChange} type="date" name='releaseDate'/>
+          <span className='validateData'>{errors.releaseDate}</span>
           <input onChange={handleChange} type="number" name='rating' placeholder='rating'/>
+          <span className='validateData'>{errors.rating}</span>
 
           <div className='selectContainer'>
             <label>Plataformas: </label>
@@ -140,10 +165,8 @@ const create = () => {
                 platforms.map(p =>  <option key={p} value={p}>{p}</option>)
               }
             </select>
-            
-            
           </div>
-
+          <span className="validateData">{errors.platforms}</span>
           <div className='selectContainer'>
             <label>Géneros: </label>
             <select onChange={handleChange} name="genre" id="">{
@@ -151,9 +174,12 @@ const create = () => {
               }
             </select>
           </div>
-          
-          <input type="submit" value="Registrar juego" className="formButton" />
+          <span className="validateData">{errors.genre}</span>
+          <input disabled={buttonDisabled()} type="submit" value="Registrar juego" className="formButton" />
+          {console.log(buttonDisabled())}
         </form>
+
+
         <div className="rightSide">
           <img src={Astarion} alt="" />
         </div>
