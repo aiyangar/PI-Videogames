@@ -14,7 +14,7 @@ const create = () => {
     description: '',
     platform: [],
     image: '',
-    releaseDate: '',
+    released: '',
     rating: '',
     genre: []
   })
@@ -24,7 +24,7 @@ const create = () => {
     description: 'La descripción es requerida',
     // platforms: 'Selecciona al menos una plataforma',
     image: 'Escribe la URL de la imagen',
-    releaseDate: 'Selecciona una fecha válida',
+    released: 'Selecciona una fecha válida',
     rating: 'Escribe un número del 1 al 5',
     // genre: 'Selecciona al menos un género'
   })
@@ -70,11 +70,11 @@ const create = () => {
         setErrors({...errors, image: ''})
       }
     }
-    if (name === 'releaseDate'){
-      if (state.releaseDate === ''){
-        setErrors({...errors, releaseDate: 'Selecciona una fecha'})
+    if (name === 'released'){
+      if (state.released === ''){
+        setErrors({...errors, released: 'Selecciona una fecha'})
       } else {
-        setErrors({...errors, releaseDate: ''})
+        setErrors({...errors, released: ''})
       }
     }
     if (name === 'rating'){
@@ -162,8 +162,8 @@ const create = () => {
           <span className='validateData'>{errors.description}</span>
           <input onChange={handleChange} type="text" name='image' placeholder='url de la imagen'/>
           <span className='validateData'>{errors.image}</span>
-          <input onChange={handleChange} type="date" name='releaseDate'/>
-          <span className='validateData'>{errors.releaseDate}</span>
+          <input onChange={handleChange} type="date" name='released'/>
+          <span className='validateData'>{errors.released}</span>
           <input onChange={handleChange} type="number" name='rating' placeholder='rating'/>
           <span className='validateData'>{errors.rating}</span>
 

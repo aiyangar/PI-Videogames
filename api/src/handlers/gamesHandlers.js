@@ -38,9 +38,9 @@ const getDetailHandler = async(req, res, ) => {
 }
 
 const createGameHandler = async(req, res, ) => {
-  const { id, name, description, platform, image, releaseDate, rating, genre, created } = req.body;
+  const { id, name, description, platform, image, released, rating, genre, created } = req.body;
   try {
-    const response = await createGameDB(id, name, description, platform, image, releaseDate, rating, genre, created);
+    const response = await createGameDB(id, name, description, platform, image, released, rating, genre, created);
     res.status(200).json(response);
   
   } catch (error) {

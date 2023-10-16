@@ -29,7 +29,7 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: "https://via.placeholder.com/150"
     },
-    releaseDate: {
+    released: {
       type: DataTypes.DATEONLY,
       allowNull: true,
     },

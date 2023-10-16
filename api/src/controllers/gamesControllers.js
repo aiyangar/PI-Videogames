@@ -51,7 +51,7 @@ const getGameByID = async(id, source) => {
   }
 }
 
-const createGameDB = async(id, name, description, platform, image, releaseDate, rating, genre, created) => {
+const createGameDB = async(id, name, description, platform, image, released, rating, genre, created) => {
 
     return await Videogame.create({
       id,
@@ -59,7 +59,7 @@ const createGameDB = async(id, name, description, platform, image, releaseDate, 
       description,
       platform,
       image,
-      releaseDate,
+      released,
       rating,
       genre,
       created
