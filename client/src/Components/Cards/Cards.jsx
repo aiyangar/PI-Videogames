@@ -7,7 +7,7 @@ const Cards = ({info}) => {
   return (
     <div className='cardsContainer'>
       {
-        info.map (item => <Card name = {item.name} description = {item.description} platforms = {item.platforms} image = {item.image} releaseDate = {item.releaseDate} rating = {item.rating} genres = {item.genres} key = {item.id}/>)
+        info.map (item => <Card name = {item.name} description = {item.description} platform = {item.platform} image = {item.image} released = {item.released} rating = {item.rating} genre = {item.genre} key = {item.id}/>)
       }
     </div>
   )

@@ -152,7 +152,6 @@ const create = () => {
 
   return (
     <div>
-      {console.log(errors)}
       <h1>Registrar un nuevo juego</h1>
       <br />
       <div className='formContainer'>
