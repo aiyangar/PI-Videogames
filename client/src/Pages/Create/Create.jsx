@@ -1,14 +1,18 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import './Create.styles.css'
 import Astarion from './BG3.jpg'
+import { createVideogame } from '../../Redux/Action/Action'
 
 
 const create = () => {
 
+  const dispatch = useDispatch();
+
   const [state, setState] = useState ({
     name: '',
     description: '',
-    platforms: [],
+    platform: [],
     image: '',
     releaseDate: '',
     rating: '',
@@ -18,17 +22,17 @@ const create = () => {
   const [errors, setErrors] = useState ({
     name: 'El nombre del juego es requerido',
     description: 'La descripción es requerida',
-    platforms: 'Selecciona al menos una plataforma',
+    // platforms: 'Selecciona al menos una plataforma',
     image: 'Escribe la URL de la imagen',
     releaseDate: 'Selecciona una fecha válida',
     rating: 'Escribe un número del 1 al 5',
-    genre: 'Selecciona al menos un género'
+    // genre: 'Selecciona al menos un género'
   })
 
   const genre = [
     'racing', 'shooter', 'action', 'strategy', 'sports', 'puzzle', 'platformer', 'rPG', 'Horror', 'FPS', 'MMORPG'
   ]
-  const platforms = ['PC', 'Nintendo', 'Super Nintendo', 'Sega', 'Game Boy']
+  const platform = ['PC', 'Nintendo', 'Super Nintendo', 'Sega', 'Game Boy']
 
   const validate = (state, name) => {
     if (name === 'name'){
@@ -52,13 +56,13 @@ const create = () => {
       }
       
     }
-    if (name === 'platforms'){
-      if (state.platforms.length === 0){
-        setErrors({...errors, platforms: 'Selecciona al menos una plataforma'})
-      } else {
-        setErrors({...errors, platforms: ''})
-      }
-    }
+    // if (name === 'platforms'){
+    //   if (state.platforms.length === 0){
+    //     setErrors({...errors, platforms: 'Selecciona al menos una plataforma'})
+    //   } else {
+    //     setErrors({...errors, platforms: ''})
+    //   }
+    // }
     if (name === 'image'){
       if (state.image === ''){
         setErrors({...errors, image: 'Escribe la URL de la imagen'})
@@ -80,19 +84,19 @@ const create = () => {
         setErrors({...errors, rating: 'Escribe un número del 1 al 5'})
       }
     }
-    if (name === 'genre'){
-      if (state.genre.length === 0){
-        setErrors({...errors, genre: 'Selecciona al menos un género'})
-      } else {
-        setErrors({...errors, genre: ''})
-      }
-    }
+    // if (name === 'genre'){
+    //   if (state.genre.length === 0){
+    //     setErrors({...errors, genre: 'Selecciona al menos un género'})
+    //   } else {
+    //     setErrors({...errors, genre: ''})
+    //   }
+    // }
   }
 
   const handleChange = (event) => {
 
-    if (event.target.name === 'platforms') {
-      if (state.platforms.includes(event.target.value)) return
+    if (event.target.name === 'platform') {
+      if (state.platform.includes(event.target.value)) return
       setState({
         ...state,
         [event.target.name]: [...state[event.target.name], event.target.value]
@@ -141,13 +145,18 @@ const create = () => {
     })
   }
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    dispatch(createVideogame(state))
+  }
+
   return (
     <div>
       {console.log(errors)}
       <h1>Registrar un nuevo juego</h1>
       <br />
       <div className='formContainer'>
-        <form className='leftSide'>
+        <form onSubmit={handleSubmit} className='leftSide' >
           <input onChange={handleChange} type="text" name='name' placeholder='nombre'/>
           <span className='validateData'>{errors.name}</span>
           <input onChange={handleChange} type="text" name='description' placeholder='descripción'/>
@@ -161,12 +170,12 @@ const create = () => {
 
           <div className='selectContainer'>
             <label>Plataformas: </label>
-            <select onChange={handleChange} name="platforms" id="">{
-                platforms.map(p =>  <option key={p} value={p}>{p}</option>)
+            <select onChange={handleChange} name="platform" id="">{
+                platform.map(p =>  <option key={p} value={p}>{p}</option>)
               }
             </select>
           </div>
-          <span className="validateData">{errors.platforms}</span>
+          {/* <span className="validateData">{errors.platforms}</span> */}
           <div className='selectContainer'>
             <label>Géneros: </label>
             <select onChange={handleChange} name="genre" id="">{
@@ -174,7 +183,7 @@ const create = () => {
               }
             </select>
           </div>
-          <span className="validateData">{errors.genre}</span>
+          {/* <span className="validateData">{errors.genre}</span> */}
           <input disabled={buttonDisabled()} type="submit" value="Registrar juego" className="formButton" />
           {console.log(buttonDisabled())}
         </form>
@@ -187,7 +196,7 @@ const create = () => {
       <div className="genrePlatformContainer">
         <div className='platformsContainer'>
           {
-            state.platforms.map((p, index) => <div className='item' key={index}><span id={'platforms'}>{p}</span><button name='platforms' id={p} onClick={removeElement} type='button'>x</button></div>)
+            state.platform.map((p, index) => <div className='item' key={index}><span id={'platform'}>{p}</span><button name='platform' id={p} onClick={removeElement} type='button'>x</button></div>)
           }
         </div>
         <div className='genreContainer'>
