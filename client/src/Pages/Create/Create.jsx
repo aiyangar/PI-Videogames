@@ -22,11 +22,11 @@ const create = () => {
   const [errors, setErrors] = useState ({
     name: 'El nombre del juego es requerido',
     description: 'La descripción es requerida',
-    // platforms: 'Selecciona al menos una plataforma',
+    platform: 'Selecciona al menos una plataforma',
     image: 'Escribe la URL de la imagen',
     released: 'Selecciona una fecha válida',
     rating: 'Escribe un número del 1 al 5',
-    // genre: 'Selecciona al menos un género'
+    genre: 'Selecciona al menos un género'
   })
 
   const genre = [
@@ -46,6 +46,7 @@ const create = () => {
         setErrors({...errors, name: ''})
       }
     }
+
     if (name === 'description'){
       if (state.description === ''){
         setErrors({...errors, description: 'La descripción es requerida'})
@@ -54,15 +55,17 @@ const create = () => {
       } else {
         setErrors({...errors, description: ''})
       }
-      
     }
-    // if (name === 'platforms'){
-    //   if (state.platforms.length === 0){
-    //     setErrors({...errors, platforms: 'Selecciona al menos una plataforma'})
-    //   } else {
-    //     setErrors({...errors, platforms: ''})
-    //   }
-    // }
+
+    if (name === 'platform'){
+      if (state.platform.length === 0){
+        console.log(state.platform)
+        setErrors({...errors, platform: 'Selecciona al menos una plataforma'})
+      } else {
+        setErrors({...errors, platform:''})
+      }
+    }
+
     if (name === 'image'){
       if (state.image === ''){
         setErrors({...errors, image: 'Escribe la URL de la imagen'})
@@ -70,6 +73,7 @@ const create = () => {
         setErrors({...errors, image: ''})
       }
     }
+
     if (name === 'released'){
       if (state.released === ''){
         setErrors({...errors, released: 'Selecciona una fecha'})
@@ -77,23 +81,31 @@ const create = () => {
         setErrors({...errors, released: ''})
       }
     }
+
     if (name === 'rating'){
       if ((parseInt(state.rating) > 0) && (parseInt(state.rating) < 6) && (state.rating !== '')){
         setErrors({...errors, rating: ''})
       } else {
         setErrors({...errors, rating: 'Escribe un número del 1 al 5'})
       }
+
     }
-    // if (name === 'genre'){
-    //   if (state.genre.length === 0){
-    //     setErrors({...errors, genre: 'Selecciona al menos un género'})
-    //   } else {
-    //     setErrors({...errors, genre: ''})
-    //   }
-    // }
+    if (name === 'genre'){
+      if (state.genre.length === 0){
+        setErrors({...errors, genre: 'Selecciona al menos un género'})
+      } else {
+        setErrors({...errors, genre: ''})
+      }
+    }
   }
 
   const handleChange = (event) => {
+    if (event.target.name !== 'platform' || event.target.name !== 'genre'){
+      setState({
+        ...state,
+        [event.target.name]: event.target.value
+      })
+    }
 
     if (event.target.name === 'platform') {
       if (state.platform.includes(event.target.value)) return
@@ -101,7 +113,6 @@ const create = () => {
         ...state,
         [event.target.name]: [...state[event.target.name], event.target.value]
       })
-      return
     }
 
     if (event.target.name === 'genre') {
@@ -110,13 +121,7 @@ const create = () => {
         ...state,
         [event.target.name]: [...state[event.target.name], event.target.value]
       })
-      return
     }
-
-    setState({
-      ...state,
-      [event.target.name]: event.target.value
-    })
     
     validate({
       ...state,
@@ -143,6 +148,10 @@ const create = () => {
       ...state,
       [event.target.name]: [...state[event.target.name].filter(x => x !== event.target.id)]
     })
+    validate({
+      ...state,
+      [event.target.name]: [...state[event.target.name].filter(x => x !== event.target.id)]
+    }, event.target.name)
   }
 
   const handleSubmit = (event) => {
@@ -174,7 +183,7 @@ const create = () => {
               }
             </select>
           </div>
-          {/* <span className="validateData">{errors.platforms}</span> */}
+          <span className="validateData">{errors.platform}</span>
           <div className='selectContainer'>
             <label>Géneros: </label>
             <select onChange={handleChange} name="genre" id="">{
@@ -182,9 +191,8 @@ const create = () => {
               }
             </select>
           </div>
-          {/* <span className="validateData">{errors.genre}</span> */}
+          <span className="validateData">{errors.genre}</span>
           <input disabled={buttonDisabled()} type="submit" value="Registrar juego" className="formButton" />
-          {console.log(buttonDisabled())}
         </form>
 
 

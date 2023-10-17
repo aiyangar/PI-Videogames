@@ -15,7 +15,6 @@ const videogames = () => {
 
   return (
     <div>
-      {console.log(allVideogames)}
       <Cards info={allVideogames}></Cards>
     </div>
   )
