@@ -14,30 +14,20 @@ const getAllGames = async() => {
   return [...gamesDB, ...gamesApi]
 }
 
+
 const getGameByName = async (name) => {
   const lowerCaseName = name.toLowerCase();
+  const allGames = await getAllGames();
 
-  const gameDBFiltered = await Videogame.findAll({
-      where: {
-          name: { [Sequelize.Op.iLike]: `%${name}%` }
-      },
-      limit: 15
-  });
+  const gamesFilteredByName = allGames.filter((game) =>
+    game.name.toLowerCase().includes(lowerCaseName)
+  ).slice(0, 15);
 
-  const infoApi = await getCombinedInfoApi();
-  const gamesApi = cleanArray(infoApi);
-
-  const gameApiFiltered = gamesApi
-      .filter((videogame) => videogame.name.toLowerCase().includes(lowerCaseName))
-      .slice(0, 15);
-
-  const mergedGames = [...gameDBFiltered, ...gameApiFiltered];
-
-  if (mergedGames.length === 0) {
+  if (gamesFilteredByName.length === 0) {
     return 'No fue encontrado ningún juego que coincida con ese nombre';
   }
 
-  return mergedGames;
+  return gamesFilteredByName;
 };
 
 const getGamesByGenre = async (genre) => {
