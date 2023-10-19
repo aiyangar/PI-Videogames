@@ -3,7 +3,7 @@ const { Sequelize } = require('sequelize');
 const axios = require('axios');
 const {URL, KEY} = process.env;
 const {cleanData, cleanArray, getCombinedInfoApi} = require('../utils/utilities');
-const APIURL = `${URL}/games?key=${KEY}&page_size=40`
+const APIURL = `${URL}/games?key=${KEY}`
 
 const getAllGames = async() => {
   const gamesDB = await Videogame.findAll();
@@ -40,10 +40,28 @@ const getGameByName = async (name) => {
   return mergedGames;
 };
 
+const getGamesByGenre = async (genre) => {
+  const allGames = await getAllGames();
+  const gamesFilteredByGenre = allGames.filter((game) =>
+    game.genre.includes(genre)
+  );
+
+  return gamesFilteredByGenre;
+}
+
+
+const getGamesByPlatform = async (platform) => {
+  const allGames = await getAllGames();
+  const gamesFilteredByPlatform = allGames.filter((game) =>
+    game.platform.includes(platform)
+  );
+
+  return gamesFilteredByPlatform;
+}
 
 const getGameByID = async(id, source) => {
   if (source === 'api') {
-  const infoApi = (await axios.get(`${URL}/games/${id}?key=${KEY}`)).data;
+  const infoApi = (await axios.get(`${APIURL}`)).data;
     const game = cleanData(infoApi);
     return game;
   } else {
@@ -70,6 +88,8 @@ const createGameDB = async(id, name, description, platform, image, released, rat
 module.exports = {
   getAllGames,
   getGameByName,
+  getGamesByGenre,
+  getGamesByPlatform,
   getGameByID,
   createGameDB
 }

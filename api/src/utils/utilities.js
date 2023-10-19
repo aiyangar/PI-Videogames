@@ -46,7 +46,6 @@ const getCombinedInfoApi = async () => {
         const pageNumbers = [1, 2, 3, 4];
         const promises = pageNumbers.map((page) => axios.get(`${APIURL}&page=${page}`));
         const responses = await Promise.all(promises);
-    
         const combinedResults = responses.reduce((combined, response) => {
             return combined.concat(response.data.results);
         }, []);

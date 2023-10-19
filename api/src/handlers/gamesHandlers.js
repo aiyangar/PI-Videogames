@@ -1,17 +1,25 @@
 const { 
   getAllGames, 
   getGameByName,
+  getGamesByGenre,
+  getGamesByPlatform,
   getGameByID,
   createGameDB 
 } = require("../controllers/gamesControllers");
 
 const getGamesHandler = async(req, res, ) => {
-  const { name } = req.query;
+  const { name, genre, platform } = req.query;
 
   try {
     if (name) {
       const gameByName = await getGameByName(name);
       res.status(200).json(gameByName);
+    } else if (genre){
+      const gameByGenre = await getGamesByGenre(genre);
+      res.status(200).json(gameByGenre);
+    } else if (platform){
+      const gameByPlatform = await getGamesByPlatform(platform);
+      res.status(200).json(gameByPlatform);
     } else {
       const allGames = await getAllGames();
       res.status(200).json(allGames);
