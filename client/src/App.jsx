@@ -21,7 +21,7 @@ function App() {
           <Route path={'/'} Component={Landing} />
           <Route path={'/create'} Component={Create} />
           <Route path={'/videogames'} Component={Videogames} />
-          <Route path={'/details'} Component={Details} />
+          <Route path={'/videogames/:id'} Component={Details} />
 
         </Routes>
       <Footer />  

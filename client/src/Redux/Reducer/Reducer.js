@@ -32,6 +32,12 @@ function rootReducer(state = initialState, action) {
         ...state,
         allPlatforms: action.payload
       }
+    
+    case 'GET_VIDEOGAME_DETAILS':
+      return {
+        ...state,
+        videogame: action.payload
+      } 
 
     default:
       return state;

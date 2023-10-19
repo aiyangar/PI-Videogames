@@ -25,6 +25,7 @@ const Cards = ({ info }) => {
       <div className='cardsContainer'>
         {currentCards.map((item) => (
           <Card
+            id={item.id}
             name={item.name}
             description={item.description}
             platform={item.platform}

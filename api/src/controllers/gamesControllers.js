@@ -2,12 +2,13 @@ const { Videogame } = require('../db');
 const { Sequelize } = require('sequelize');
 const axios = require('axios');
 const {URL, KEY} = process.env;
-const {cleanData, cleanArray} = require('../utils/utilities');
+const {cleanData, cleanArray, getCombinedInfoApi} = require('../utils/utilities');
+const APIURL = `${URL}/games?key=${KEY}&page_size=40`
 
 const getAllGames = async() => {
   const gamesDB = await Videogame.findAll();
 
-  const infoApi = (await axios.get(`${URL}/games?key=${KEY}`)).data.results;
+  const infoApi = await getCombinedInfoApi();
   const gamesApi = cleanArray(infoApi);
 
   return [...gamesDB, ...gamesApi]
@@ -23,7 +24,7 @@ const getGameByName = async (name) => {
       limit: 15
   });
 
-  const infoApi = (await axios.get(`${URL}/games?key=${KEY}`)).data.results;
+  const infoApi = await getCombinedInfoApi();
   const gamesApi = cleanArray(infoApi);
 
   const gameApiFiltered = gamesApi
@@ -42,7 +43,7 @@ const getGameByName = async (name) => {
 
 const getGameByID = async(id, source) => {
   if (source === 'api') {
-    const infoApi = (await axios.get(`${URL}/games/${id}?key=${KEY}`)).data;
+  const infoApi = (await axios.get(`${URL}/games/${id}?key=${KEY}`)).data;
     const game = cleanData(infoApi);
     return game;
   } else {

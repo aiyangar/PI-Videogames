@@ -4,7 +4,8 @@ import {
   GET_VIDEOGAMES,
   SEARCH,
   GET_GENRES,
-  GET_PLATFORMS
+  GET_PLATFORMS,
+  GET_VIDEOGAME_DETAILS
 } from './ActionTypes'
 
 
@@ -30,6 +31,21 @@ export function getVideogames(){
       })
     
     } catch (error) {
+      alert(error.response.data.message)
+    }
+  }
+}
+
+export function getVideogame(id){
+  return async function(dispatch){
+    try {
+      const response = await axios.get(`http://localhost:3001/videogames/${id}`)
+      return dispatch({
+        type: GET_VIDEOGAME_DETAILS,
+        payload: response.data
+      })
+    }
+    catch (error) {
       alert(error.response.data.message)
     }
   }

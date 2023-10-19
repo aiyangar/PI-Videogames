@@ -10,8 +10,6 @@ const NavBar = () => {
   const handleSubmit = () =>{
     const searchTerm = document.getElementById('search').value.toLowerCase();
     dispatch(searchVideogame(searchTerm));
-
-    window.location.href = '/videogames';
   }
   
   return (

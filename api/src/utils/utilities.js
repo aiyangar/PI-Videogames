@@ -1,3 +1,7 @@
+const axios = require('axios');
+const {URL, KEY} = process.env;
+const APIURL = `${URL}/games?key=${KEY}&page_size=25`
+
 const cleanArray = (arr) => {
     return arr.map((elem) => {
         const platforms = [elem.platforms, elem.parent_platforms]
@@ -5,7 +9,6 @@ const cleanArray = (arr) => {
             .filter((name, index, arr) => arr.indexOf(name) === index);
         
         const genres = elem.genres.map(genreData => genreData.name);
-        
         return {
             id: elem.id,
             name: elem.name,
@@ -19,7 +22,6 @@ const cleanArray = (arr) => {
         };
     });
 };
-
 
 const cleanData = (element) => {
     const platforms = element.platforms.map((platformData) => platformData.platform.name);
@@ -39,5 +41,22 @@ const cleanData = (element) => {
     };
 };
 
+const getCombinedInfoApi = async () => {
+    try {
+        const pageNumbers = [1, 2, 3, 4];
+        const promises = pageNumbers.map((page) => axios.get(`${APIURL}&page=${page}`));
+        const responses = await Promise.all(promises);
+    
+        const combinedResults = responses.reduce((combined, response) => {
+            return combined.concat(response.data.results);
+        }, []);
+    
+        return combinedResults;
+    } catch (error) {
+        throw new Error('Error al obtener información de la API: ' + error.message);
+    }
+};
 
-module.exports = { cleanArray, cleanData }
+
+
+module.exports = { cleanArray, cleanData, getCombinedInfoApi  }
