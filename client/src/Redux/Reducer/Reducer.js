@@ -14,7 +14,24 @@ function rootReducer(state = initialState, action) {
         ...state,
         allVideogames: action.payload
       }
-      break;
+    
+    case 'SEARCH':
+      return {
+        ...state,
+        allVideogames: action.payload
+      }
+      
+    case 'GET_GENRES':
+      return {
+        ...state,
+        allGenres: action.payload
+      }
+
+    case 'GET_PLATFORMS':
+      return {
+        ...state,
+        allPlatforms: action.payload
+      }
 
     default:
       return state;

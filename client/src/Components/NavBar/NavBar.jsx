@@ -1,8 +1,19 @@
+import { useDispatch } from 'react-redux'
 import React from 'react'
 import videogamesLogo from './Logo.svg'
 import './NavBar.styles.css'
+import { searchVideogame } from '../../Redux/Action/Action'
 
 const NavBar = () => {
+  const dispatch = useDispatch()
+
+  const handleSubmit = () =>{
+    const searchTerm = document.getElementById('search').value.toLowerCase();
+    dispatch(searchVideogame(searchTerm));
+
+    window.location.href = '/videogames';
+  }
+  
   return (
     <div className='navbarContainer'>
       <a href='/' className='logo'><img src={videogamesLogo} alt="Logo" /></a>
@@ -14,8 +25,8 @@ const NavBar = () => {
         </ul>
       </nav>
       <div className="searchBarContainer">
-        <input type="text" placeholder='Búsqueda...' />
-        <button>Buscar</button>
+        <input id='search' type="text" placeholder='Búsqueda...' />
+        <button onClick={handleSubmit} >Buscar</button>
       </div>
     </div>
   )

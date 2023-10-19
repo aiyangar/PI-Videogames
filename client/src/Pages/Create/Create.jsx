@@ -1,13 +1,28 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import './Create.styles.css'
 import Astarion from './BG3.jpg'
-import { createVideogame } from '../../Redux/Action/Action'
+import { 
+  createVideogame,
+  getGenres,
+  getPlatforms
+} from '../../Redux/Action/Action'
 
 
 const create = () => {
 
   const dispatch = useDispatch();
+
+  const allGenres = useSelector(state => state.allGenres)
+  const allPlatforms = useSelector(state => state.allPlatforms)
+
+  useEffect(() => {
+    dispatch(getGenres())
+  },[])
+
+  useEffect(() => {
+    dispatch(getPlatforms())
+  }, [])
 
   const [state, setState] = useState ({
     name: '',
@@ -29,10 +44,9 @@ const create = () => {
     genre: 'Selecciona al menos un género'
   })
 
-  const genre = [
-    'racing', 'shooter', 'action', 'strategy', 'sports', 'puzzle', 'platformer', 'rPG', 'Horror', 'FPS', 'MMORPG'
-  ]
-  const platform = ['PC', 'Nintendo', 'Super Nintendo', 'Sega', 'Game Boy']
+  const genre = allGenres.map(genre => genre.name)
+
+  const platform = allPlatforms.map(platform => platform.name)
 
   const validate = (state, name) => {
     if (name === 'name'){
@@ -142,7 +156,6 @@ const create = () => {
     return disableButton
   }
   
-
   const removeElement = (event) => {
     setState({
       ...state,
@@ -203,12 +216,12 @@ const create = () => {
       <div className="genrePlatformContainer">
         <div className='platformsContainer'>
           {
-            state.platform.map((p, index) => <div className='item' key={index}><span id={'platform'}>{p}</span><button name='platform' id={p} onClick={removeElement} type='button'>x</button></div>)
+            state.platform.map((p, index) => <div className='item' key={index}><span id={'platform'}>{p}</span><button name='platform' id={p} onClick={removeElement} type='button'>eliminar</button></div>)
           }
         </div>
         <div className='genreContainer'>
           {
-            state.genre.map((p, index) => <div className='item' key={index}><button name='genre' id={p} onClick={removeElement} type='button'>x</button><span id={'genre'}>{p}</span></div>)
+            state.genre.map((p, index) => <div className='item' key={index}><button name='genre' id={p} onClick={removeElement} type='button'>eliminar</button><span id={'genre'}>{p}</span></div>)
           }
         </div>
         
