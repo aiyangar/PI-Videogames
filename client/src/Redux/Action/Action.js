@@ -5,7 +5,8 @@ import {
   SEARCH,
   GET_GENRES,
   GET_PLATFORMS,
-  GET_VIDEOGAME_DETAILS
+  GET_VIDEOGAME_DETAILS,
+  FILTER_VIDEOGAMES,
 } from './ActionTypes'
 
 
@@ -94,4 +95,30 @@ export function searchVideogame(search){
       alert(error.response.data.message)
     }
   }
+}
+
+export function filterVideogamesBy(search) {
+  return async function (dispatch) {
+    try {
+      const filters = search.split('&');
+      const genreFilter = filters.find(filter => filter.startsWith('genre='));
+      const platformFilter = filters.find(filter => filter.startsWith('platform='));
+
+      let url = 'http://localhost:3001/videogames?';
+      if (genreFilter) {
+        url += `${genreFilter}&`;
+      }
+      if (platformFilter) {
+        url += `${platformFilter}&`;
+      }
+
+      const response = await axios.get(url);
+      dispatch({
+        type: FILTER_VIDEOGAMES,
+        payload: response.data
+      });
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
 }

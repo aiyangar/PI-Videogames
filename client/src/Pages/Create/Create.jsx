@@ -12,17 +12,13 @@ import {
 const create = () => {
 
   const dispatch = useDispatch();
-
   const allGenres = useSelector(state => state.allGenres)
   const allPlatforms = useSelector(state => state.allPlatforms)
 
   useEffect(() => {
-    dispatch(getGenres())
-  },[])
-
-  useEffect(() => {
-    dispatch(getPlatforms())
-  }, [])
+    dispatch(getGenres());
+    dispatch(getPlatforms());
+  }, []);
 
   const [state, setState] = useState ({
     name: '',
