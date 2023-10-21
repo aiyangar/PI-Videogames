@@ -11,24 +11,27 @@ const getGamesHandler = async (req, res) => {
   const { name, genre, platform } = req.query;
 
   try {
-    let filteredGames = await getAllGames();
+    let filteredGames = [];
 
     if (name) {
-      filteredGames = filteredGames.filter((game) =>
-        game.name.includes(name)
-      );
+      const gamesByName = await getGameByName(name);
+      filteredGames = [...filteredGames, ...gamesByName];
     }
 
     if (genre) {
-      filteredGames = filteredGames.filter((game) =>
-        game.genre.includes(genre)
-      );
+      const selectedGenres = genre.split(',');
+      for (const selectedGenre of selectedGenres) {
+        const gamesByGenre = await getGamesByGenre(selectedGenre);
+        filteredGames = [...filteredGames, ...gamesByGenre];
+      }
     }
 
     if (platform) {
-      filteredGames = filteredGames.filter((game) =>
-        game.platform.includes(platform)
-      );
+      const selectedPlatforms = platform.split(',');
+      for (const selectedPlatform of selectedPlatforms) {
+        const gamesByPlatform = await getGamesByPlatform(selectedPlatform);
+        filteredGames = [...filteredGames, ...gamesByPlatform];
+      }
     }
 
     if (filteredGames.length === 0) {
@@ -40,6 +43,7 @@ const getGamesHandler = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 
 
