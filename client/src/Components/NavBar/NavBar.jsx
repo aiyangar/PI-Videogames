@@ -1,16 +1,9 @@
-import { useDispatch } from 'react-redux'
 import React from 'react'
 import videogamesLogo from './Logo.svg'
 import './NavBar.styles.css'
-import { searchVideogame } from '../../Redux/Action/Action'
+import SearchBar from '../SearchBar/SearchBar'
 
 const NavBar = () => {
-  const dispatch = useDispatch()
-
-  const handleSubmit = () =>{
-    const searchTerm = document.getElementById('search').value.toLowerCase();
-    dispatch(searchVideogame(searchTerm));
-  }
   
   return (
     <div className='navbarContainer'>
@@ -22,10 +15,7 @@ const NavBar = () => {
           <li><a href="/create">Create</a></li>
         </ul>
       </nav>
-      <div className="searchBarContainer">
-        <input id='search' type="text" placeholder='Búsqueda...' />
-        <button onClick={handleSubmit} >Buscar</button>
-      </div>
+      <SearchBar />
     </div>
   )
 }
