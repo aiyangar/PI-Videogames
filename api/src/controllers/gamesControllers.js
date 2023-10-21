@@ -3,7 +3,6 @@ const { Sequelize } = require('sequelize');
 const axios = require('axios');
 const {URL, KEY} = process.env;
 const {cleanData, cleanArray, getCombinedInfoApi} = require('../utils/utilities');
-const APIURL = `${URL}/games?key=${KEY}`
 
 const getAllGames = async() => {
   const gamesDB = await Videogame.findAll();
@@ -30,28 +29,25 @@ const getGameByName = async (name) => {
   return gamesFilteredByName;
 };
 
-const getGamesByGenre = async (genre) => {
-  const allGames = await getAllGames();
+const getGamesByGenre = async (genre, allGames) => {
   const gamesFilteredByGenre = allGames.filter((game) =>
     game.genre.includes(genre)
   );
 
   return gamesFilteredByGenre;
-}
+};
 
-
-const getGamesByPlatform = async (platform) => {
-  const allGames = await getAllGames();
+const getGamesByPlatform = async (platform, allGames) => {
   const gamesFilteredByPlatform = allGames.filter((game) =>
     game.platform.includes(platform)
   );
 
   return gamesFilteredByPlatform;
-}
+};
 
 const getGameByID = async(id, source) => {
   if (source === 'api') {
-  const infoApi = (await axios.get(`${APIURL}`)).data;
+  const infoApi = (await axios.get(`${URL}/games/${id}?key=${KEY}`)).data;
     const game = cleanData(infoApi);
     return game;
   } else {

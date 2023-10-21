@@ -7,44 +7,53 @@ const {
   createGameDB 
 } = require("../controllers/gamesControllers");
 
+
 const getGamesHandler = async (req, res) => {
   const { name, genre, platform } = req.query;
 
   try {
-    let filteredGames = [];
-
-    if (name) {
-      const gamesByName = await getGameByName(name);
-      filteredGames = [...filteredGames, ...gamesByName];
-    }
-
-    if (genre) {
-      const selectedGenres = genre.split(',');
-      for (const selectedGenre of selectedGenres) {
-        const gamesByGenre = await getGamesByGenre(selectedGenre);
-        filteredGames = [...filteredGames, ...gamesByGenre];
-      }
-    }
-
-    if (platform) {
-      const selectedPlatforms = platform.split(',');
-      for (const selectedPlatform of selectedPlatforms) {
-        const gamesByPlatform = await getGamesByPlatform(selectedPlatform);
-        filteredGames = [...filteredGames, ...gamesByPlatform];
-      }
-    }
-
-    if (filteredGames.length === 0) {
-      res.status(404).json({ error: 'No se encontraron juegos que coincidan con los filtros' });
+    if (!name && !genre && !platform) {
+      // Si no se envían filtros, obtén todos los juegos disponibles
+      const allGames = await getAllGames();
+      res.status(200).json(allGames);
     } else {
-      res.status(200).json(filteredGames);
+      // Si se envían filtros, filtra los juegos en función de esos filtros
+      let filteredGames = await getAllGames();
+
+      if (name) {
+        filteredGames = filteredGames.filter((game) =>
+          game.name.includes(name)
+        );
+      }
+
+      if (genre) {
+        // Si se envían múltiples géneros, divídelos en un array
+        const genres = Array.isArray(genre) ? genre : [genre];
+
+        // Filtra los juegos por género
+        for (const g of genres) {
+          filteredGames = await getGamesByGenre(g, filteredGames);
+        }
+      }
+
+      if (platform) {
+        const platforms = Array.isArray(platform) ? platform : [platform];
+
+        for (const p of platforms) {
+          filteredGames = await getGamesByPlatform(p, filteredGames);
+        }
+      }
+
+      if (filteredGames.length === 0) {
+        res.status(404).json({ error: 'No se encontraron juegos que coincidan con los filtros' });
+      } else {
+        res.status(200).json(filteredGames);
+      }
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
-
-
 
 
 const getDetailHandler = async(req, res, ) => {
