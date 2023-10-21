@@ -7,27 +7,41 @@ const {
   createGameDB 
 } = require("../controllers/gamesControllers");
 
-const getGamesHandler = async(req, res, ) => {
+const getGamesHandler = async (req, res) => {
   const { name, genre, platform } = req.query;
 
   try {
+    let filteredGames = await getAllGames();
+
     if (name) {
-      const gameByName = await getGameByName(name);
-      res.status(200).json(gameByName);
-    } else if (genre){
-      const gameByGenre = await getGamesByGenre(genre);
-      res.status(200).json(gameByGenre);
-    } else if (platform){
-      const gameByPlatform = await getGamesByPlatform(platform);
-      res.status(200).json(gameByPlatform);
+      filteredGames = filteredGames.filter((game) =>
+        game.name.includes(name)
+      );
+    }
+
+    if (genre) {
+      filteredGames = filteredGames.filter((game) =>
+        game.genre.includes(genre)
+      );
+    }
+
+    if (platform) {
+      filteredGames = filteredGames.filter((game) =>
+        game.platform.includes(platform)
+      );
+    }
+
+    if (filteredGames.length === 0) {
+      res.status(404).json({ error: 'No se encontraron juegos que coincidan con los filtros' });
     } else {
-      const allGames = await getAllGames();
-      res.status(200).json(allGames);
+      res.status(200).json(filteredGames);
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-}
+};
+
+
 
 const getDetailHandler = async(req, res, ) => {
   const { id } = req.params;
