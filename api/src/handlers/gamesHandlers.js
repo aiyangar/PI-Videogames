@@ -13,11 +13,9 @@ const getGamesHandler = async (req, res) => {
 
   try {
     if (!name && !genre && !platform) {
-      // Si no se envían filtros, obtén todos los juegos disponibles
       const allGames = await getAllGames();
       res.status(200).json(allGames);
     } else {
-      // Si se envían filtros, filtra los juegos en función de esos filtros
       let filteredGames = await getAllGames();
 
       if (name) {
@@ -27,10 +25,8 @@ const getGamesHandler = async (req, res) => {
       }
 
       if (genre) {
-        // Si se envían múltiples géneros, divídelos en un array
         const genres = Array.isArray(genre) ? genre : [genre];
 
-        // Filtra los juegos por género
         for (const g of genres) {
           filteredGames = await getGamesByGenre(g, filteredGames);
         }
