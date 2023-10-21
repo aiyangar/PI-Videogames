@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './Filter.styles.css';
 
@@ -24,38 +24,87 @@ const Filter = () => {
     ...allPlatforms.map(platform => ({ value: platform.name, label: platform.name })),
   ];
 
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedPlatforms, setSelectedPlatforms] = useState([]);
+
+  const handleGenreChange = (event) => {
+    const selectedGenre = event.target.value;
+
+    if (!selectedGenres.includes(selectedGenre)) {
+      setSelectedGenres([...selectedGenres, selectedGenre]);
+    }
+  }
+
+  const handlePlatformChange = (event) => {
+    const selectedPlatform = event.target.value;
+
+    if (!selectedPlatforms.includes(selectedPlatform)) {
+      setSelectedPlatforms([...selectedPlatforms, selectedPlatform]);
+    }
+  }
+
+  const handleRemoveGenre = (genre) => {
+    const updatedGenres = selectedGenres.filter((selectedGenre) => selectedGenre !== genre);
+    setSelectedGenres(updatedGenres);
+  }
+
+  const handleRemovePlatform = (platform) => {
+    const updatedPlatforms = selectedPlatforms.filter((selectedPlatform) => selectedPlatform !== platform);
+    setSelectedPlatforms(updatedPlatforms);
+  }
+
   return (
-    <div className="filterContainer">
-      <div className="filterOption">
-        <label>Género: </label>
-        <select>
-          {genreOptions.map(option => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </div>
+    <div>
+      <div className="filterContainer">
+        <div className="filterOption">
+          <label>Género: </label>
+          <select onChange={handleGenreChange}>
+            {genreOptions.map(option => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      <div className="filterOption">
-        <label>Plataforma: </label>
-        <select>
-          {platformOptions.map(option => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </div>
+        <div className="filterOption">
+          <label>Plataforma: </label>
+          <select onChange={handlePlatformChange}>
+            {platformOptions.map(option => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      <div className="filterOption">
-        <label>Ordenar por: </label>
-        <select>
-          <option value="nombre-asc">Nombre (Ascendente)</option>
-          <option value="nombre-desc">Nombre (Descendente)</option>
-          <option value="rating-asc">Rating (Ascendente)</option>
-          <option value="rating-desc">Rating (Descendente)</option>
-        </select>
+        <div className="filterOption">
+          <label>Ordenar por: </label>
+          <select>
+            <option value="nombre-asc">Nombre (Ascendente)</option>
+            <option value="nombre-desc">Nombre (Descendente)</option>
+            <option value="rating-asc">Rating (Ascendente)</option>
+            <option value="rating-desc">Rating (Descendente)</option>
+          </select>
+        </div>
+      </div>
+      <div className="selectedFilters">
+        <div>
+          Selección de géneros:
+          {selectedGenres.map((genre, index) => (
+            <span key={index} className="selectedFilter" onClick={() => handleRemoveGenre(genre)}>
+              {genre} &times;
+            </span>
+          ))}
+        </div>
+        <div>
+          Selección de plataformas:
+          {selectedPlatforms.map((platform, index) => (
+            <span key={index} className="selectedFilter" onClick={() => handleRemovePlatform(platform)}>
+              {platform} &times;
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );

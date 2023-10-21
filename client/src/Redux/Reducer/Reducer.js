@@ -38,6 +38,13 @@ function rootReducer(state = initialState, action) {
         ...state,
         videogame: action.payload
       } 
+    
+    case 'GET_GENRES':
+    case 'GET_PLATFORMS':
+      return {
+        ...state,
+        allVideogames: action.payload
+      }
 
     default:
       return state;
