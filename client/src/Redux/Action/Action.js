@@ -103,6 +103,7 @@ export function filterVideogamesBy(search) {
       const filters = search.split('&');
       const genreFilter = filters.find(filter => filter.startsWith('genre='));
       const platformFilter = filters.find(filter => filter.startsWith('platform='));
+      console.log(genreFilter, platformFilter);
 
       let url = 'http://localhost:3001/videogames?';
       if (genreFilter) {

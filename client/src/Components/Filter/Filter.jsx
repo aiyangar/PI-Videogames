@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './Filter.styles.css';
 
-import { getGenres, getPlatforms } from '../../Redux/Action/Action';
+import { getGenres, getPlatforms, filterVideogamesBy } from '../../Redux/Action/Action';
 
 const Filter = () => {
   const dispatch = useDispatch();
@@ -13,6 +13,20 @@ const Filter = () => {
     dispatch(getGenres());
     dispatch(getPlatforms());
   }, []);
+
+  const generateFilters = (selectedGenres, selectedPlatforms) => {
+    let filters = '';
+  
+    if (selectedGenres.length > 0) {
+      filters += 'genre=' + selectedGenres.join('&genre=') + '&';
+    }
+  
+    if (selectedPlatforms.length > 0) {
+      filters += 'platform=' + selectedPlatforms.join('&platform=') + '&';
+    }
+  
+    return filters;
+  }
 
   const genreOptions = [
     { value: '', label: 'Todos los géneros' },
@@ -29,9 +43,10 @@ const Filter = () => {
 
   const handleGenreChange = (event) => {
     const selectedGenre = event.target.value;
-
     if (!selectedGenres.includes(selectedGenre)) {
       setSelectedGenres([...selectedGenres, selectedGenre]);
+      const filters = generateFilters(selectedGenres, selectedPlatforms);
+    dispatch(filterVideogamesBy(filters));
     }
   }
 
@@ -40,6 +55,8 @@ const Filter = () => {
 
     if (!selectedPlatforms.includes(selectedPlatform)) {
       setSelectedPlatforms([...selectedPlatforms, selectedPlatform]);
+      const filters = generateFilters(selectedGenres, selectedPlatforms);
+    dispatch(filterVideogamesBy(filters));
     }
   }
 
@@ -90,7 +107,7 @@ const Filter = () => {
       </div>
       <div className="selectedFilters">
         <div>
-          Selección de géneros:
+          Selección de géneros: 
           {selectedGenres.map((genre, index) => (
             <span key={index} className="selectedFilter" onClick={() => handleRemoveGenre(genre)}>
               {genre} &times;
@@ -98,7 +115,7 @@ const Filter = () => {
           ))}
         </div>
         <div>
-          Selección de plataformas:
+          Selección de plataformas: 
           {selectedPlatforms.map((platform, index) => (
             <span key={index} className="selectedFilter" onClick={() => handleRemovePlatform(platform)}>
               {platform} &times;
