@@ -21,7 +21,6 @@ const getGameByName = async (name) => {
   const gamesFilteredByName = allGames.filter((Videogame) =>
     Videogame.name.toLowerCase().includes(lowerCaseName)
   ).slice(0, 15);
-  console.log(Videogame)
 
   if (gamesFilteredByName.length === 0) {
     return 'No fue encontrado ningún juego que coincida con ese nombre';
