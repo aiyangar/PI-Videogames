@@ -84,7 +84,6 @@ export function getPlatforms(){
 
 export function searchVideogame(search){
   return async function(dispatch){
-
     try {
       const response = await axios.get(`http://localhost:3001/videogames?name=${search}`)
       dispatch({
@@ -109,7 +108,6 @@ export function filterVideogamesBy(state) {
       if (platform.length > 0) {
         url += `platform=${platform.join('&platform=')}&`;
       }
-      console.log(url);
 
       const response = await axios.get(url);
       console.log(response.data);

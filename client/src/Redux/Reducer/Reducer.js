@@ -46,6 +46,12 @@ function rootReducer(state = initialState, action) {
         allVideogames: action.payload
       }
 
+    case 'FILTER_VIDEOGAMES':
+      return {
+        ...state,
+        allVideogames: action.payload
+      }
+
     default:
       return state;
       break;
