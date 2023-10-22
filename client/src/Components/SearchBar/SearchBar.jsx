@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { searchVideogame } from '../../Redux/Action/Action';
+import { Link } from 'react-router-dom';
 
 const SearchBar = () => {
   const dispatch = useDispatch();
@@ -8,6 +9,7 @@ const SearchBar = () => {
 
   const handleSubmit = () => {
     const formattedSearchTerm = searchTerm.toLowerCase();
+    console.log('esto va segundo')
     dispatch(searchVideogame(formattedSearchTerm));
   };
 
@@ -19,7 +21,11 @@ const SearchBar = () => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <button onClick={handleSubmit}>Buscar</button>
+      <Link>
+        {console.log('esto va primero')}
+        <button onClick={handleSubmit}>Buscar</button>
+      </Link>
+      {console.log('esto va tercero')}
     </div>
   );
 };
