@@ -19,9 +19,7 @@ const getGamesHandler = async (req, res) => {
       let filteredGames = await getAllGames();
 
       if (name) {
-        filteredGames = filteredGames.filter((game) =>
-          game.name.includes(name)
-        );
+        filteredGames = await getGameByName(name, filteredGames);
       }
 
       if (genre) {

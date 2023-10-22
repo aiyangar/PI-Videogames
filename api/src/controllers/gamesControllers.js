@@ -18,9 +18,10 @@ const getGameByName = async (name) => {
   const lowerCaseName = name.toLowerCase();
   const allGames = await getAllGames();
 
-  const gamesFilteredByName = allGames.filter((game) =>
-    game.name.toLowerCase().includes(lowerCaseName)
+  const gamesFilteredByName = allGames.filter((Videogame) =>
+    Videogame.name.toLowerCase().includes(lowerCaseName)
   ).slice(0, 15);
+  console.log(Videogame)
 
   if (gamesFilteredByName.length === 0) {
     return 'No fue encontrado ningún juego que coincida con ese nombre';
@@ -30,16 +31,16 @@ const getGameByName = async (name) => {
 };
 
 const getGamesByGenre = async (genre, allGames) => {
-  const gamesFilteredByGenre = allGames.filter((game) =>
-    game.genre.includes(genre)
+  const gamesFilteredByGenre = allGames.filter((Videogame) =>
+    Videogame.genre.includes(genre)
   );
 
   return gamesFilteredByGenre;
 };
 
 const getGamesByPlatform = async (platform, allGames) => {
-  const gamesFilteredByPlatform = allGames.filter((game) =>
-    game.platform.includes(platform)
+  const gamesFilteredByPlatform = allGames.filter((Videogame) =>
+    Videogame.platform.includes(platform)
   );
 
   return gamesFilteredByPlatform;

@@ -41,7 +41,6 @@ const create = () => {
   })
 
   const genre = allGenres.map(genre => genre.name)
-
   const platform = allPlatforms.map(platform => platform.name)
 
   const validate = (state, name) => {

@@ -5,6 +5,7 @@ import './Filter.styles.css';
 import { getGenres, getPlatforms, filterVideogamesBy } from '../../Redux/Action/Action';
 
 const Filter = () => {
+
   const dispatch = useDispatch();
   const allGenres = useSelector(state => state.allGenres);
   const allPlatforms = useSelector(state => state.allPlatforms);
@@ -14,84 +15,61 @@ const Filter = () => {
     dispatch(getPlatforms());
   }, []);
 
-  const generateFilters = (selectedGenres, selectedPlatforms) => {
-    let filters = '';
-  
-    if (selectedGenres.length > 0) {
-      filters += 'genre=' + selectedGenres.join('&genre=') + '&';
+  const [state, setState] = useState ({
+    genre: [],
+    platform: []
+  })
+
+  const genre = allGenres.map(genre => genre.name)
+  const platform = allPlatforms.map(platform => platform.name)
+
+  const handleChange = (event) => {
+    if (event.target.name === 'platform') {
+      if (state.platform.includes(event.target.value)) return
+      setState({
+        ...state,
+        [event.target.name]: [...state[event.target.name], event.target.value]
+      })
     }
-  
-    if (selectedPlatforms.length > 0) {
-      filters += 'platform=' + selectedPlatforms.join('&platform=') + '&';
-    }
-  
-    return filters;
-  }
 
-  const genreOptions = [
-    { value: '', label: 'Todos los géneros' },
-    ...allGenres.map(genre => ({ value: genre.name, label: genre.name })),
-  ];
-
-  const platformOptions = [
-    { value: '', label: 'Todas las plataformas' },
-    ...allPlatforms.map(platform => ({ value: platform.name, label: platform.name })),
-  ];
-
-  const [selectedGenres, setSelectedGenres] = useState([]);
-  const [selectedPlatforms, setSelectedPlatforms] = useState([]);
-
-  const handleGenreChange = (event) => {
-    const selectedGenre = event.target.value;
-    if (!selectedGenres.includes(selectedGenre)) {
-      setSelectedGenres([...selectedGenres, selectedGenre]);
-      const filters = generateFilters(selectedGenres, selectedPlatforms);
-    dispatch(filterVideogamesBy(filters));
+    if (event.target.name === 'genre') {
+      if (state.genre.includes(event.target.value)) return
+      setState({
+        ...state,
+        [event.target.name]: [...state[event.target.name], event.target.value]
+      })
     }
   }
 
-  const handlePlatformChange = (event) => {
-    const selectedPlatform = event.target.value;
-
-    if (!selectedPlatforms.includes(selectedPlatform)) {
-      setSelectedPlatforms([...selectedPlatforms, selectedPlatform]);
-      const filters = generateFilters(selectedGenres, selectedPlatforms);
-    dispatch(filterVideogamesBy(filters));
-    }
+  const removeElement = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: [...state[event.target.name].filter(x => x !== event.target.id)]
+    })
   }
 
-  const handleRemoveGenre = (genre) => {
-    const updatedGenres = selectedGenres.filter((selectedGenre) => selectedGenre !== genre);
-    setSelectedGenres(updatedGenres);
-  }
-
-  const handleRemovePlatform = (platform) => {
-    const updatedPlatforms = selectedPlatforms.filter((selectedPlatform) => selectedPlatform !== platform);
-    setSelectedPlatforms(updatedPlatforms);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    dispatch(filterVideogamesBy(state))
   }
 
   return (
     <div>
-      <div className="filterContainer">
-        <div className="filterOption">
-          <label>Género: </label>
-          <select onChange={handleGenreChange}>
-            {genreOptions.map(option => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
+      <form onSubmit={handleSubmit} className="filterContainer">
+        
+        <div className='selectContainer'>
+          <label>Plataformas: </label>
+          <select onChange={handleChange} name="platform" id="">{
+              platform.map(p =>  <option key={p} value={p}>{p}</option>)
+            }
           </select>
         </div>
 
-        <div className="filterOption">
-          <label>Plataforma: </label>
-          <select onChange={handlePlatformChange}>
-            {platformOptions.map(option => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
+        <div className='selectContainer'>
+          <label>Géneros: </label>
+          <select onChange={handleChange} name="genre" id="">{
+              genre.map(p =>  <option key={p} value={p}>{p}</option>)
+            }
           </select>
         </div>
 
@@ -104,25 +82,27 @@ const Filter = () => {
             <option value="rating-desc">Rating (Descendente)</option>
           </select>
         </div>
-      </div>
-      <div className="selectedFilters">
-        <div>
-          Selección de géneros: 
-          {selectedGenres.map((genre, index) => (
-            <span key={index} className="selectedFilter" onClick={() => handleRemoveGenre(genre)}>
-              {genre} &times;
-            </span>
-          ))}
+
+        <div className="filterOption">
+          <input type="submit" className='formButton' value='Filtrar'/>
         </div>
-        <div>
-          Selección de plataformas: 
-          {selectedPlatforms.map((platform, index) => (
-            <span key={index} className="selectedFilter" onClick={() => handleRemovePlatform(platform)}>
-              {platform} &times;
-            </span>
-          ))}
+      </form>
+
+
+      <div className="genrePlatformContainer">
+        <div className='platformsContainer'>
+          {
+            state.platform.map((p, index) => <div className='item' key={index}><span id={'platform'}>{p}</span><button name='platform' id={p} onClick={removeElement} type='button'>eliminar</button></div>)
+          }
         </div>
+        <div className='genreContainer'>
+          {
+            state.genre.map((p, index) => <div className='item' key={index}><button name='genre' id={p} onClick={removeElement} type='button'>eliminar</button><span id={'genre'}>{p}</span></div>)
+          }
+        </div>
+        
       </div>
+      
     </div>
   );
 };

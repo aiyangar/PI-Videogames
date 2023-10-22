@@ -97,23 +97,22 @@ export function searchVideogame(search){
   }
 }
 
-export function filterVideogamesBy(search) {
+export function filterVideogamesBy(state) {
   return async function (dispatch) {
     try {
-      const filters = search.split('&');
-      const genreFilter = filters.find(filter => filter.startsWith('genre='));
-      const platformFilter = filters.find(filter => filter.startsWith('platform='));
-      console.log(genreFilter, platformFilter);
+      const { genre, platform } = state;
 
       let url = 'http://localhost:3001/videogames?';
-      if (genreFilter) {
-        url += `${genreFilter}&`;
+      if (genre.length > 0) {
+        url += `genre=${genre.join('&genre=')}&`;
       }
-      if (platformFilter) {
-        url += `${platformFilter}&`;
+      if (platform.length > 0) {
+        url += `platform=${platform.join('&platform=')}&`;
       }
+      console.log(url);
 
       const response = await axios.get(url);
+      console.log(response.data);
       dispatch({
         type: FILTER_VIDEOGAMES,
         payload: response.data

@@ -1,6 +1,6 @@
 .filterContainer {
   height: 6rem;
-  max-width: 95%;
+  max-width: 100%;
   display: flex;
   background: #743ad5;
   flex-direction: row;
