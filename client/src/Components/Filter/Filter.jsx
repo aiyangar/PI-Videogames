@@ -24,22 +24,26 @@ const Filter = () => {
   const platform = allPlatforms.map(platform => platform.name)
 
   const handleChange = (event) => {
-    if (event.target.name === 'platform') {
-      if (state.platform.includes(event.target.value)) return
+    const { name, value } = event.target;
+  
+    if (name === 'platform' || name === 'genre') {
+      if (state[name].includes(value)) return;
       setState({
         ...state,
-        [event.target.name]: [...state[event.target.name], event.target.value]
-      })
-    }
-
-    if (event.target.name === 'genre') {
-      if (state.genre.includes(event.target.value)) return
+        [name]: [...state[name], value]
+      });
+    } else if (name === 'orderBy') {
+      const [criteria, order] = value.split('-');
+  
+      const ascending = order === 'asc';
       setState({
         ...state,
-        [event.target.name]: [...state[event.target.name], event.target.value]
-      })
+        criteria,
+        ascending,
+      });
     }
-  }
+  };
+  
 
   const removeElement = (event) => {
     setState({
@@ -58,24 +62,22 @@ const Filter = () => {
       <form onSubmit={handleSubmit} className="filterContainer">
         
         <div className='selectContainer'>
-          <label>Plataformas: </label>
-          <select onChange={handleChange} name="platform" id="">{
-              platform.map(p =>  <option key={p} value={p}>{p}</option>)
-            }
+          <select onChange={handleChange} name="platform" id="">
+            <option value="">Plataformas...</option>
+            {platform.map(p =>  <option key={p} value={p}>{p}</option>)}
           </select>
         </div>
 
         <div className='selectContainer'>
-          <label>Géneros: </label>
-          <select onChange={handleChange} name="genre" id="">{
-              genre.map(p =>  <option key={p} value={p}>{p}</option>)
-            }
+          <select onChange={handleChange} name="genre" id="">
+            <option value="">Géneros...</option> {/* Opción por defecto */}
+            {genre.map(p =>  <option key={p} value={p}>{p}</option>)}
           </select>
         </div>
 
         <div className="filterOption">
-          <label>Ordenar por: </label>
-          <select>
+          <select name='orderBy' onChange={handleChange}>
+            <option value="">Ordenar por...</option>
             <option value="nombre-asc">Nombre (Ascendente)</option>
             <option value="nombre-desc">Nombre (Descendente)</option>
             <option value="rating-asc">Rating (Ascendente)</option>

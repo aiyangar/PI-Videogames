@@ -99,7 +99,7 @@ export function searchVideogame(search){
 export function filterVideogamesBy(state) {
   return async function (dispatch) {
     try {
-      const { genre, platform } = state;
+      const { genre, platform, criteria, ascending } = state;
 
       let url = 'http://localhost:3001/videogames?';
       if (genre.length > 0) {
@@ -107,6 +107,9 @@ export function filterVideogamesBy(state) {
       }
       if (platform.length > 0) {
         url += `platform=${platform.join('&platform=')}&`;
+      }
+      if (criteria && ascending !== undefined) {
+        url += `criteria=${criteria}&ascending=${ascending ? 'true' : 'false'}&`;
       }
 
       const response = await axios.get(url);
