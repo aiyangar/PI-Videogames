@@ -1,6 +1,7 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-import './Footer.styles.css'
+import './Footer.styles.css';
 
 const Footer = () => {
   return (
@@ -16,32 +17,32 @@ const Footer = () => {
         <div className="footerMenu">
           <ul>
             <li>
-              <a href="/">Inicio</a>
+              <Link to="/">Inicio</Link>
             </li>
             <li>
-              <a href="/videogames">Videogames</a>
+              <Link to="/videogames">Videogames</Link>
             </li>
             <li>
-              <a href="/create">Create</a>
+              <Link to="/create">Create</Link>
             </li>
           </ul>
         </div>
         <div className="socialNetworks">
-          <a href="/">
+          <Link to="/">
             <i className="fa-brands fa-facebook-f" />
-          </a>
+          </Link>
         
-          <a href="/">
+          <Link to="/">
             <i className="fa-brands fa-twitter" />
-          </a>
+          </Link>
         
-          <a href="/">
+          <Link to="/">
             <i className="fa-brands fa-instagram" />
-          </a>
+          </Link>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

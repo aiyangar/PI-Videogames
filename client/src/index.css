@@ -99,15 +99,12 @@ select:focus-visible {
 }
 
 .linea {
-  /* border-bottom: 8px solid;
-  color: #3e3e3e;
-  height: 2px;
-  width: 100%;*/
   padding-top: 6rem; 
   border: 10px solid;
   border-image-slice: 1;
   border-width: 5px;
-  border-image-source: linear-gradient(to left, #743ad5, #3e3e3e);
+  /* border-image-source: linear-gradient(to left, #743ad5, #3e3e3e); */
+  border-color: #743ad5;
   border-left: 0;
   border-right: 0;
   border-top: 0;
