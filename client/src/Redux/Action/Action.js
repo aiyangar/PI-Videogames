@@ -111,7 +111,7 @@ export function searchVideogame(search) {
 export function filterVideogamesBy(state) {
   return async function (dispatch) {
     try {
-      const { genre, platform, criteria, ascending } = state;
+      const { genre, platform, createdAt, criteria, ascending } = state;
 
       let url = 'http://localhost:3001/videogames?';
       if (genre.length > 0) {
@@ -119,6 +119,10 @@ export function filterVideogamesBy(state) {
       }
       if (platform.length > 0) {
         url += `platform=${platform.join('&platform=')}&`;
+      }
+      if (createdAt !== undefined) {
+        console.log(createdAt);
+        url += `created=${createdAt}&`;
       }
       if (criteria && ascending !== undefined) {
         url += `criteria=${criteria}&ascending=${ascending ? 'true' : 'false'}&`;

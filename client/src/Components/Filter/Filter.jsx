@@ -33,6 +33,12 @@ const Filter = () => {
         ...state,
         [name]: [...state[name], value]
       });
+    } else if (name === 'createdAt') {
+      const createdAtValue = value;
+      setState({
+        ...state,
+        createdAt: createdAtValue,
+      })
     } else if (name === 'orderBy') {
       const [criteria, order] = value.split('-');
   
@@ -91,6 +97,14 @@ const Filter = () => {
             <option value="nombre-desc">Nombre (Descendente)</option>
             <option value="rating-asc">Rating (Ascendente)</option>
             <option value="rating-desc">Rating (Descendente)</option>
+          </select>
+        </div>
+
+        <div className="filterOption">
+          <select name="createdAt" onChange={handleChange}>
+            <option value="">Creado en</option>
+            <option value="true">BDD</option>
+            <option value="false">API</option>
           </select>
         </div>
 
