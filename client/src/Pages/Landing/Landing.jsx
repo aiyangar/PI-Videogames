@@ -1,9 +1,19 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';Router
+import './Landing.styles.css';
+import videogameImage from './videogame.png';
 
-const landing = () => {
+const Landing = () => {
   return (
-    <div>landing</div>
-  )
-}
+    <div>
+      <div className="sinBuilder">
+        <img src={videogameImage} alt="videogameImage" />
+        <Link to="/videogames">
+          <button>Comenzar</button>
+        </Link>
+      </div>
+    </div>
+  );
+};
 
-export default landing
+export default Landing;
