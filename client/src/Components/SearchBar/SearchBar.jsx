@@ -6,15 +6,17 @@ const SearchBar = () => {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async () => {
     const formattedSearchTerm = searchTerm.toLowerCase();
     setIsLoading(true);
+    setError(null);
 
     try {
       await dispatch(searchVideogame(formattedSearchTerm));
     } catch (error) {
-      console.error('Error:', error);
+      setError(error);
     } finally {
       setIsLoading(false);
     }
@@ -28,12 +30,12 @@ const SearchBar = () => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-        <button onClick={handleSubmit} disabled={isLoading}>
-          {isLoading ? 'Buscando...' : 'Buscar'}
-        </button>
+      <button onClick={handleSubmit} disabled={isLoading}>
+        {isLoading ? 'Buscando...' : 'Buscar'}
+      </button>
+      {error && <div className="error-message">{error.message}</div>}
     </div>
   );
 };
-
 
 export default SearchBar;

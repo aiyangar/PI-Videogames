@@ -10,6 +10,7 @@ import {
 } from './ActionTypes'
 
 
+
 export function createVideogame(state){
   return async function(){
 
@@ -82,19 +83,30 @@ export function getPlatforms(){
   }
 }
 
-export function searchVideogame(search){
-  return async function(dispatch){
+export function searchVideogame(search) {
+  return async function (dispatch) {
     try {
-      const response = await axios.get(`http://localhost:3001/videogames?name=${search}`)
-      dispatch({
-        type: SEARCH,
-        payload: response.data
-      })
+      const response = await axios.get(`http://localhost:3001/videogames?name=${search}`);
+      const noResults = await axios.get('http://localhost:3001/videogames');
+
+      if (response.data === 'No fue encontrado ningún juego que coincida con ese nombre') {
+        dispatch({
+          type: SEARCH,
+          payload: noResults.data
+        });
+      } else {
+        dispatch({
+          type: SEARCH,
+          payload: response.data,
+        });
+      }
     } catch (error) {
-      alert(error.response.data.message)
+      alert(error.response.data.message);
     }
-  }
+  };
 }
+
+
 
 export function filterVideogamesBy(state) {
   return async function (dispatch) {
