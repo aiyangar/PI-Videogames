@@ -7,6 +7,7 @@ import { getGenres, getPlatforms, filterVideogamesBy } from '../../Redux/Action/
 const Filter = () => {
 
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const allGenres = useSelector(state => state.allGenres);
   const allPlatforms = useSelector(state => state.allPlatforms);
 
@@ -52,9 +53,17 @@ const Filter = () => {
     })
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    dispatch(filterVideogamesBy(state))
+    setIsLoading(true);
+  
+    try {
+      await dispatch(filterVideogamesBy(state));
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -70,7 +79,7 @@ const Filter = () => {
 
         <div className='selectContainer'>
           <select onChange={handleChange} name="genre" id="">
-            <option value="">Géneros...</option> {/* Opción por defecto */}
+            <option value="">Géneros...</option>
             {genre.map(p =>  <option key={p} value={p}>{p}</option>)}
           </select>
         </div>
@@ -86,7 +95,7 @@ const Filter = () => {
         </div>
 
         <div className="filterOption">
-          <input type="submit" className='formButton' value='Filtrar'/>
+          <input type="submit" className='formButton' value={isLoading ? 'Filtrando...' : 'Filtrar'} />
         </div>
       </form>
 
