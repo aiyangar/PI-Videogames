@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Card from '../Card/Card.jsx';
+import Pagination from '../Pagination/Pagination.jsx'; // Asegúrate de importar el componente de paginación
+
 import './Cards.styles.css';
 
 const Cards = ({ info }) => {
@@ -10,20 +12,14 @@ const Cards = ({ info }) => {
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   const currentCards = info.slice(indexOfFirstCard, indexOfLastCard);
 
-  const paginate = (pageNumber) => {
+  const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  // Número total de páginas
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(info.length / cardsPerPage); i++) {
-    pageNumbers.push(i);
-  }
-
   return (
     <div>
-      <div className='cardsContainer'>
-        {currentCards.map((item) => (
+      <div className="cardsContainer">{
+        currentCards.map((item) => (
           <Card
             id={item.id}
             name={item.name}
@@ -37,27 +33,13 @@ const Cards = ({ info }) => {
           />
         ))}
       </div>
-      <div className='pagination'>
-          {currentPage > 1 && (
-            <button onClick={() => paginate(currentPage - 1)}>Anterior</button>
-          )}
-
-          {pageNumbers.map((number) => (
-            <button
-              key={number}
-              onClick={() => paginate(number)}
-              className={currentPage === number ? 'active' : ''}
-            >
-              {number}
-            </button>
-          ))}
-
-          {currentPage < pageNumbers.length && (
-            <button onClick={() => paginate(currentPage + 1)}>Siguiente</button>
-          )}
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        totalItems={info.length}
+        itemsPerPage={cardsPerPage}
+        onPageChange={handlePageChange}
+      />
     </div>
-    
   );
 };
 
