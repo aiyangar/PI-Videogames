@@ -45,6 +45,14 @@ const getGamesByPlatform = async (platform, allGames) => {
   return gamesFilteredByPlatform;
 };
 
+const getGamesByCreated = async (created, allGames) => {
+  const gamesFilteredByCreated = allGames.filter((Videogame) =>
+    Videogame.created === (created === 'true')
+  );
+
+  return gamesFilteredByCreated;
+};
+
 const getGameByID = async(id, source) => {
   if (source === 'api') {
   const infoApi = (await axios.get(`${URL}/games/${id}?key=${KEY}`)).data;
@@ -61,13 +69,13 @@ const sortGames = (games, criteria, ascending) => {
     nombre: 'name',
     rating: 'rating',
   };
-  const key = criteriaMap[criteria] || 'name'; // Por defecto, ordenar por nombre.
+  const key = criteriaMap[criteria] || 'name';
 
   const sortedGames = games.slice().sort((a, b) => {
     const valueA = key === 'name' ? a[key].toLowerCase() : a[key];
     const valueB = key === 'name' ? b[key].toLowerCase() : b[key];
 
-    let comparison = 0; // Inicialmente, sin cambios en la ordenación
+    let comparison = 0;
 
     if (valueA > valueB) {
       comparison = 1;
@@ -75,7 +83,7 @@ const sortGames = (games, criteria, ascending) => {
       comparison = -1;
     }
 
-    return comparison; // No aplicar la dirección de ordenación todavía
+    return comparison;
   });
 
   return ascending === 'true' ? sortedGames : sortedGames.reverse();
@@ -105,6 +113,7 @@ module.exports = {
   getGameByName,
   getGamesByGenre,
   getGamesByPlatform,
+  getGamesByCreated,
   getGameByID,
   sortGames,
   createGameDB

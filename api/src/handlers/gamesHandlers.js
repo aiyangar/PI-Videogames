@@ -3,6 +3,7 @@ const {
   getGameByName,
   getGamesByGenre,
   getGamesByPlatform,
+  getGamesByCreated,
   getGameByID,
   sortGames,
   createGameDB 
@@ -10,10 +11,10 @@ const {
 
 
 const getGamesHandler = async (req, res) => {
-  const { name, genre, platform, criteria, ascending } = req.query;
+  const { name, genre, platform, created, criteria, ascending } = req.query;
 
   try {
-    if (!name && !genre && !platform) {
+    if (!name && !genre && !platform && !created) {
       const allGames = await getAllGames();
       if (criteria) {
         const sortedGames = sortGames(allGames, criteria, ascending);
@@ -42,6 +43,9 @@ const getGamesHandler = async (req, res) => {
         for (const p of platforms) {
           filteredGames = await getGamesByPlatform(p, filteredGames);
         }
+      }
+      if (created) {
+        filteredGames = await getGamesByCreated(created, filteredGames);
       }
 
       if (criteria) {
