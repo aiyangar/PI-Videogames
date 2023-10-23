@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';Router
+import { Link } from 'react-router-dom';
 import './Landing.styles.css';
 import videogameImage from './videogame.png';
 
