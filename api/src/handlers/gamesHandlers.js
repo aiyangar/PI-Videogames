@@ -4,17 +4,23 @@ const {
   getGamesByGenre,
   getGamesByPlatform,
   getGameByID,
+  sortGames,
   createGameDB 
 } = require("../controllers/gamesControllers");
 
 
 const getGamesHandler = async (req, res) => {
-  const { name, genre, platform } = req.query;
+  const { name, genre, platform, criteria, ascending } = req.query;
 
   try {
     if (!name && !genre && !platform) {
       const allGames = await getAllGames();
-      res.status(200).json(allGames);
+      if (criteria) {
+        const sortedGames = sortGames(allGames, criteria, ascending);
+        res.status(200).json(sortedGames);
+      } else {
+        res.status(200).json(allGames);
+      }
     } else {
       let filteredGames = await getAllGames();
 
@@ -36,6 +42,10 @@ const getGamesHandler = async (req, res) => {
         for (const p of platforms) {
           filteredGames = await getGamesByPlatform(p, filteredGames);
         }
+      }
+
+      if (criteria) {
+        filteredGames = sortGames(filteredGames, criteria, ascending);
       }
 
       if (filteredGames.length === 0) {

@@ -56,6 +56,35 @@ const getGameByID = async(id, source) => {
   }
 }
 
+const sortGames = (games, criteria, ascending) => {
+  const criteriaMap = {
+    nombre: 'name',
+    rating: 'rating',
+  };
+  const key = criteriaMap[criteria] || 'name'; // Por defecto, ordenar por nombre.
+
+  const sortedGames = games.slice().sort((a, b) => {
+    const valueA = key === 'name' ? a[key].toLowerCase() : a[key];
+    const valueB = key === 'name' ? b[key].toLowerCase() : b[key];
+
+    let comparison = 0; // Inicialmente, sin cambios en la ordenación
+
+    if (valueA > valueB) {
+      comparison = 1;
+    } else if (valueA < valueB) {
+      comparison = -1;
+    }
+
+    return comparison; // No aplicar la dirección de ordenación todavía
+  });
+
+  return ascending === 'true' ? sortedGames : sortedGames.reverse();
+};
+
+
+
+
+
 const createGameDB = async(id, name, description, platform, image, released, rating, genre, created) => {
 
     return await Videogame.create({
@@ -77,5 +106,6 @@ module.exports = {
   getGamesByGenre,
   getGamesByPlatform,
   getGameByID,
+  sortGames,
   createGameDB
 }

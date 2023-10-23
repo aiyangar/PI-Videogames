@@ -110,7 +110,6 @@ export function filterVideogamesBy(state) {
       }
 
       const response = await axios.get(url);
-      console.log(response.data);
       dispatch({
         type: FILTER_VIDEOGAMES,
         payload: response.data
