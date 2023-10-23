@@ -11,7 +11,7 @@
   align-content: space-between;
   justify-content: space-around;
   max-width: 40%;
-  height: 32rem;
+  gap: 5px;
 }
 
 .selectContainer {
@@ -41,6 +41,7 @@
 .genreContainer {
   justify-content: left;
   text-align: left;
+  padding: auto;
 }
 
 .rightSide {
