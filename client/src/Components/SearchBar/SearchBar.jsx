@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { searchVideogame } from '../../Redux/Action/Action';
-import { Link } from 'react-router-dom';
 
 const SearchBar = () => {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const formattedSearchTerm = searchTerm.toLowerCase();
-    console.log('esto va segundo')
-    dispatch(searchVideogame(formattedSearchTerm));
+    setIsLoading(true);
+
+    try {
+      await dispatch(searchVideogame(formattedSearchTerm));
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -21,13 +28,12 @@ const SearchBar = () => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <Link>
-        {console.log('esto va primero')}
-        <button onClick={handleSubmit}>Buscar</button>
-      </Link>
-      {console.log('esto va tercero')}
+        <button onClick={handleSubmit} disabled={isLoading}>
+          {isLoading ? 'Buscando...' : 'Buscar'}
+        </button>
     </div>
   );
 };
+
 
 export default SearchBar;
