@@ -119,7 +119,6 @@ export function filterVideogamesBy(state) {
         url += `platform=${platform.join('&platform=')}&`;
       }
       if (createdAt !== undefined) {
-        console.log(createdAt);
         url += `created=${createdAt}&`;
       }
       if (criteria && ascending !== undefined) {

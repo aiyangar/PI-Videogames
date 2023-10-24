@@ -70,7 +70,6 @@ const create = () => {
 
     if (name === 'platform'){
       if (state.platform.length === 0){
-        console.log(state.platform)
         setErrors({...errors, platform: 'Selecciona al menos una plataforma'})
       } else {
         setErrors({...errors, platform:''})
