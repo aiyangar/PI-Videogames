@@ -19,7 +19,6 @@ export function createVideogame(state){
     } catch (error) {
       if (error.response.data.error === 'llave duplicada viola restricción de unicidad «videogames_name_key»'){
         alert('El videojuego ha sido registrado anteriormente.')
-      
       } else
       alert(error.response.data.error)
     }
@@ -34,7 +33,6 @@ export function getVideogames(){
         type: GET_VIDEOGAMES, 
         payload: response.data
       })
-    
     } catch (error) {
       alert(error.response.data.error)
     }
@@ -64,7 +62,6 @@ export function getGenres(){
         type: GET_GENRES, 
         payload: response.data
       })
-    
     } catch (error) {
       alert(error.response.data.error)
     }
@@ -79,7 +76,6 @@ export function getPlatforms(){
         type: GET_PLATFORMS, 
         payload: response.data
       })
-    
     } catch (error) {
       alert(error.response.data.error)
     }
