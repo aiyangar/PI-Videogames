@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import {useNavigate} from 'react-router-dom'
 import { searchVideogame } from '../../Redux/Action/Action';
 
 const SearchBar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -14,6 +16,7 @@ const SearchBar = () => {
     setError(null);
 
     try {
+      navigate('/videogames');
       await dispatch(searchVideogame(formattedSearchTerm));
     } catch (error) {
       setError(error);
