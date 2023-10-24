@@ -6,7 +6,6 @@ import image1 from './Videogame1.png';
 import image2 from './Videogame2.png';
 import image3 from './Videogame3.png';
 import image4 from './Videogame4.png';
-
 import contentImage1 from './Landing1.jpeg'
 
 import { getVideogames } from '../../Redux/Action/Action';
