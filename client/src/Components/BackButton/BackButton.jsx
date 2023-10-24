@@ -5,7 +5,7 @@ import "./BackButton.styles.css";
 const BackButton = () => {
     return (
         <Link to="/videogames">
-                <button className="atras">atrás</button>
+                <button className="atras">cerrar</button>
         </Link>
     );
 };

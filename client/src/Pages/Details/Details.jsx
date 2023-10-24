@@ -28,25 +28,29 @@ const Details = () => {
 
   return (
     <div>
-      <h1>Videojuego</h1>
+      <h1>{name}</h1>
 
       <div className="detailContainer">
         <div className="detailLeft">
           <div className="detailUpperSection">
-            <img src={image} alt="Videogame Image" />
+            <img src={image} alt={name} />
           </div>
           <div className="detailLowerSection">
-            <h2>Nombre: {name}</h2>
+            <h2>{name}</h2>
           </div>
         </div>
 
         <div className="detailRight">
-          <p>Fecha de lanzamiento: {released}</p>
-          <p>Rating: {rating}</p>
-          <p>Generos: {genreText}</p>
-          <p>Plataformas: {platformText}</p>
-          <div dangerouslySetInnerHTML={{ __html: description }}></div>
-          <BackButton />
+          <div className="detailUpperSection other">
+            <h4>Fecha de lanzamiento: </h4><p>{released}</p>
+            <h4>Rating: </h4><p>{rating}</p>
+            <h4>Generos: </h4><p>{genreText}</p>
+            <h4>Plataformas: </h4><p>{platformText}</p>
+            <h4>Descripción: </h4><span dangerouslySetInnerHTML={{ __html: description }}></span>
+          </div>
+          <div className="detailLowerSection">
+            <BackButton />
+          </div>
         </div>
       </div>
     </div>
