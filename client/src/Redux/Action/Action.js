@@ -13,12 +13,15 @@ import {
 
 export function createVideogame(state){
   return async function(){
-
     try {
       await axios.post('http://localhost:3001/videogames/', state)
       alert('Videogame creado correctamente')
     } catch (error) {
-      alert(error.response.data.message)
+      if (error.response.data.error === 'llave duplicada viola restricción de unicidad «videogames_name_key»'){
+        alert('El videojuego ha sido registrado anteriormente.')
+      
+      } else
+      alert(error.response.data.error)
     }
   }
 }
@@ -33,7 +36,7 @@ export function getVideogames(){
       })
     
     } catch (error) {
-      alert(error.response.data.message)
+      alert(error.response.data.error)
     }
   }
 }
@@ -48,7 +51,7 @@ export function getVideogame(id){
       })
     }
     catch (error) {
-      alert(error.response.data.message)
+      alert(error.response.data.error)
     }
   }
 }
@@ -63,7 +66,7 @@ export function getGenres(){
       })
     
     } catch (error) {
-      alert(error.response.data.message)
+      alert(error.response.data.error)
     }
   }
 }
@@ -78,7 +81,7 @@ export function getPlatforms(){
       })
     
     } catch (error) {
-      alert(error.response.data.message)
+      alert(error.response.data.error)
     }
   }
 }
@@ -98,10 +101,10 @@ export function searchVideogame(search) {
         dispatch({
           type: SEARCH,
           payload: response.data,
-        });
+        }, alert('No se encontró ningún juego que coincida con ese nombre'));
       }
     } catch (error) {
-      alert(error.response.data.message);
+      alert(error.response.data.error);
     }
   };
 }
