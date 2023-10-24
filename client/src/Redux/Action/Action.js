@@ -93,6 +93,7 @@ export function searchVideogame(search) {
       const noResults = await axios.get('http://localhost:3001/videogames');
 
       if (response.data === 'No fue encontrado ningún juego que coincida con ese nombre') {
+        alert(response.data);
         dispatch({
           type: SEARCH,
           payload: noResults.data
@@ -101,15 +102,13 @@ export function searchVideogame(search) {
         dispatch({
           type: SEARCH,
           payload: response.data,
-        }, alert('No se encontró ningún juego que coincida con ese nombre'));
+        });
       }
     } catch (error) {
       alert(error.response.data.error);
     }
   };
 }
-
-
 
 export function filterVideogamesBy(state) {
   return async function (dispatch) {
